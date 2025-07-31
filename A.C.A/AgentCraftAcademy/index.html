@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentCraft Academy v1.0</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Topbar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <div class="logo">
+                    <img src="assets/logo.svg" alt="AgentCraft Academy Logo">
+                    <span class="logo-text">AgentCraft Academy</span>
+                </div>
+                <span class="version">v1.0</span>
+            </div>
+            <div class="topbar-right">
+                <button id="theme-toggle" class="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Container -->
+        <main class="main-container">
+            <!-- Left Sidebar -->
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <button class="nav-item active" data-module="flow">
+                        <span class="nav-icon">🔗</span>
+                        <span class="nav-text">Flow Builder</span>
+                    </button>
+                    <button class="nav-item" data-module="terminal">
+                        <span class="nav-icon">💻</span>
+                        <span class="nav-text">Terminal</span>
+                    </button>
+                    <button class="nav-item" data-module="metrics">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">Metrics</span>
+                    </button>
+                </nav>
+                
+                <!-- Agent Palette -->
+                <div class="agent-palette">
+                    <h3>Agent Types</h3>
+                    <div class="agent-item" draggable="true" data-agent-type="planner">
+                        <span class="agent-icon">🧠</span>
+                        <span class="agent-name">Planner</span>
+                    </div>
+                    <div class="agent-item" draggable="true" data-agent-type="executor">
+                        <span class="agent-icon">⚡</span>
+                        <span class="agent-name">Executor</span>
+                    </div>
+                    <div class="agent-item" draggable="true" data-agent-type="evaluator">
+                        <span class="agent-icon">🔍</span>
+                        <span class="agent-name">Evaluator</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center Workspace -->
+            <section class="workspace">
+                <div id="workspace-content">
+                    <!-- Welcome message (default) -->
+                    <div id="welcome-message" class="welcome-message">
+                        <h2>Welkom bij AgentCraft Academy</h2>
+                        <p>Selecteer een module uit de sidebar om te beginnen</p>
+                    </div>
+                    
+                    <!-- Flow Canvas Container -->
+                    <div id="flow-canvas-container" class="flow-container hidden">
+                        <canvas id="flow-canvas"></canvas>
+                    </div>
+                    
+                    <!-- Terminal Container -->
+                    <div id="terminal-container" class="terminal-container hidden">
+                        <div id="terminal-log" class="terminal-log"></div>
+                        <div class="terminal-input-container">
+                            <input type="text" id="terminal-input" class="terminal-input" placeholder="Type een commando...">
+                            <button id="terminal-send" class="terminal-send">Send</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Metrics Container -->
+                    <div id="metrics-container" class="metrics-container hidden">
+                        <h3>Real-time Metrics</h3>
+                        <div id="metrics-content"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Status Panel -->
+            <aside class="status-panel">
+                <div class="status-header">
+                    <h3>Agent Status</h3>
+                    <div class="connection-status">
+                        <span id="connection-indicator" class="status-dot disconnected"></span>
+                        <span id="connection-text">Disconnected</span>
+                    </div>
+                </div>
+                
+                <!-- Selected Agent Info -->
+                <div id="agent-info" class="agent-info hidden">
+                    <h4>Selected Agent</h4>
+                    <form id="agent-config-form">
+                        <div class="form-group">
+                            <label for="agent-name">Name:</label>
+                            <input type="text" id="agent-name" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="agent-type">Type:</label>
+                            <input type="text" id="agent-type" name="type" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="agent-status">Status:</label>
+                            <select id="agent-status" name="status">
+                                <option value="active">Active</option>
+                                <option value="idle">Idle</option>
+                                <option value="error">Error</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Capabilities:</label>
+                            <div id="capabilities-list" class="capabilities-list">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="remove-agent" class="btn-danger">Remove</button>
+                            <button type="button" id="duplicate-agent" class="btn-secondary">Duplicate</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Flow Validation -->
+                <div id="flow-validation" class="flow-validation">
+                    <h4>Flow Status</h4>
+                    <div id="validation-result" class="validation-result">
+                        <span class="validation-icon">⏳</span>
+                        <span class="validation-text">Validating...</span>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-left">
+                <span class="version">AgentCraft Academy v1.0</span>
+            </div>
+            <div class="footer-right">
+                <a href="https://github.com/agentcraft/academy" target="_blank" rel="noopener" class="github-link">
+                    <span class="github-icon">📦</span>
+                    GitHub
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="src/vibe.js"></script>
+    <script src="src/protocol.js"></script>
+    <script src="src/testengine.js"></script>
+    <script src="src/flow.js"></script>
+    <script src="src/metrics.js"></script>
+    <script src="src/netviz.js"></script>
+    <script src="main.js"></script>
+</body>
+</html> 
